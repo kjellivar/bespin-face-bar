@@ -1,4 +1,5 @@
 # Bespin Cloud Bar - Face recognition and drink ordering interface
+Usage of [Microsoft Face API](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236) for for delivering orders to the correct customer at a fictional bar.
 
 ## Installation
 Make sure you have node installed. You need a keys.js file in the `static/`folder. It must contain 
