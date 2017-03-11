@@ -1,0 +1,33 @@
+<head>
+	<title>Get your order - Bespin - Cloud Bar</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<div>
+		<video id="video" width="640" height="480" autoplay></video>
+		<canvas style="display:none" id="canvas" width="640" height="480"></canvas>
+	</div>
+
+	<div id="hud">
+		<div class="logo">
+			<img src="logo.png" alt="Bespin cloud bar logo">
+		</div>
+		<div class="inputs">
+			<div class="inline-block">
+				<div>
+					<select id="videoselect"></select>
+				</div>
+				<div>
+					<button id="snap">Get your order</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script src="keys.js"></script>
+	<script src="script.js"></script>
+</body>
