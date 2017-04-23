@@ -14,7 +14,8 @@
 	var FIND_SIMILARS = '/findsimilars';
 	var GET_FACE_LIST = '/facelists/' + faceListId;
 	var CHECK_CUSTOMER = '/customerinbar';
-	var faceIds = [1,2]
+	var faceIds = [1,2];
+	var minimumFaceFraction = 0.05;
 
 	toastr.options = {
 	  "positionClass": "toast-bottom-right",
@@ -37,11 +38,12 @@
 	function checkFace(){
 		toastr.info('Checking face...');
 		hud.className = "off";
+		
 		var req = createRequest(DETECT, 'POST', function(){
 			var res = JSON.parse(this.responseText)
 			console.log(res);
-			if(res && res.length){
-				var face = res[0]
+			var face = getMainFace(res);
+			if(face){
 				faceIds[0] = face.faceId;
 				var age = face.faceAttributes.age;
 				if(age >= 18){
@@ -52,7 +54,7 @@
 				checkSimilarFaces(face.faceId);
 				
 			} else {
-				toastr.error('No face detected, please try again');
+				toastr.error('Could not find a suitable face. Try again');
 				hud.className = "";
 			}
 
@@ -60,8 +62,32 @@
 		});
 		req.setRequestHeader('Content-Type', 'application\/octet-stream')
 
+		
 		var blob = makeBlob(canvas.toDataURL());
 		req.send(blob);
+	}
+	
+	function getMainFace(faces){
+		if(faces && faces.length){
+			var res = faces[0];
+			for(var i = 1; i < faces.length; i++){
+				var current = faces[i];
+				if(getFaceSize(res) < getFaceSize(current)){
+					res = current;
+				}
+			}
+			
+			var canvasSize = canvas.width * canvas.height;
+			
+			if(getFaceSize(res) > minimumFaceFraction * canvasSize){
+				return res;
+			}
+		}
+	}
+	
+	function getFaceSize(face){
+		var faceRectangle = face.faceRectangle;
+		return faceRectangle.height * faceRectangle.width;
 	}
 
 	function checkOrders(customerId){
